@@ -1,0 +1,31 @@
+{
+  "name": "banjinbell",
+  "description": "banjinbell's Claude Code plugin marketplace — currently hosts the WeChat Mini-Program Design skill. Rolling release: every push to main is the latest version.",
+  "owner": {
+    "name": "banjinbell",
+    "url": "https://github.com/banjinbell"
+  },
+  "plugins": [
+    {
+      "name": "wechat-miniprogram-design",
+      "description": "Design distinctive, production-grade WeChat mini-program UI/UX — multi-screen interactive React prototypes inside a real iOS frame with the WeChat top capsule.",
+      "author": {
+        "name": "banjinbell"
+      },
+      "category": "design",
+      "source": {
+        "source": "git",
+        "url": "https://github.com/banjinbell/wechat-miniprogram-design.git",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/banjinbell/wechat-miniprogram-design",
+      "keywords": [
+        "wechat",
+        "miniprogram",
+        "design",
+        "ui",
+        "cjk"
+      ]
+    }
+  ]
+}

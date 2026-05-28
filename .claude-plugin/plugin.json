@@ -1,0 +1,24 @@
+{
+  "name": "wechat-miniprogram-design",
+  "description": "Design distinctive, production-grade WeChat mini-program UI/UX — multi-screen interactive React prototypes inside a real iOS frame with the WeChat top capsule. Helps non-designers discover their aesthetic via side-by-side device-frame previews. Portable across Claude Code, Cursor, Cline, Aider, Codex CLI.",
+  "author": {
+    "name": "banjinbell",
+    "url": "https://github.com/banjinbell"
+  },
+  "homepage": "https://github.com/banjinbell/wechat-miniprogram-design",
+  "repository": "https://github.com/banjinbell/wechat-miniprogram-design",
+  "license": "MIT",
+  "keywords": [
+    "wechat",
+    "miniprogram",
+    "mini-program",
+    "design",
+    "ui",
+    "ux",
+    "prototype",
+    "react",
+    "ios-frame",
+    "cjk",
+    "cloudbase"
+  ]
+}

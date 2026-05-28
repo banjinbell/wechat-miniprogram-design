@@ -48,23 +48,37 @@ If you're only doing design review, none of these matter. The prototype runs in 
 
 ## Installation
 
-### Claude Code
+### Claude Code — via the plugin marketplace (recommended)
 
-```bash
-cp -r "WeChat Mini-Program Design" ~/.claude/skills/
+This repo IS a Claude Code marketplace. Two commands and you're done:
+
+```
+/plugin marketplace add banjinbell/wechat-miniprogram-design
+/plugin install wechat-miniprogram-design@banjinbell
 ```
 
-Then in a new session, the skill auto-triggers on prompts like *"帮我设计一个日记小程序"* or *"design a fitness tracking mini-program"*.
+After install, the skill is reachable as `/wechat-miniprogram-design:*` and auto-triggers on prompts like *"帮我设计一个日记小程序"* or *"design a fitness tracking mini-program"*. To pull updates later: `/plugin marketplace update` (or enable auto-update in `/plugin` settings).
+
+### Claude Code — manual (standalone, without the marketplace)
+
+If you prefer the classic `.claude/` install:
+
+```bash
+git clone https://github.com/banjinbell/wechat-miniprogram-design.git
+cp -r wechat-miniprogram-design/skills/wechat-miniprogram-design ~/.claude/skills/
+```
+
+In this mode the skill triggers as `/wechat-miniprogram-design` (no plugin namespace).
 
 ### Cursor / Cline / Aider / generic agents
 
-Place the folder anywhere your agent's skill loader scans. For Cursor and most MCP-based shells, reading `SKILL.md` at session start (via the agent's rules / system-prompt convention) is enough — the body is self-contained.
+Place `skills/wechat-miniprogram-design/` anywhere your agent's skill loader scans. For Cursor and most MCP-based shells, reading `SKILL.md` at session start (via the agent's rules / system-prompt convention) is enough — the body is self-contained.
 
 ### Manual / one-off use
 
-You don't have to "install" anything. Just point your agent at `SKILL.md` and start the conversation:
+You don't have to "install" anything. Just point your agent at the SKILL.md and start the conversation:
 
-> "Read `/path/to/WeChat Mini-Program Design/SKILL.md` and follow it. I want to design a mini-program for tracking gym workouts."
+> "Read `/path/to/wechat-miniprogram-design/skills/wechat-miniprogram-design/SKILL.md` and follow it. I want to design a mini-program for tracking gym workouts."
 
 ---
 
@@ -89,30 +103,39 @@ The skill responds by:
 ## File structure
 
 ```
-WeChat Mini-Program Design/
-├── SKILL.md                  ← entry point (~530 lines)
-├── Tweaks Panel.md           ← sub-skill for the in-prototype Tweaks panel
-├── README.md                 ← you are here
+wechat-miniprogram-design/                 ← repo root (also a single-plugin marketplace)
+├── .claude-plugin/
+│   ├── marketplace.json                   ← Claude Code marketplace catalog
+│   └── plugin.json                        ← plugin manifest
 │
-├── design-systems/           ← 6 pre-built named visual systems
-│   ├── README.md             ← selection index with comparison axes
-│   ├── cosmic-nocturne/      ┐
-│   ├── liquid-iridescence/   │  Dream Journal line (~25KB design.md each)
-│   ├── paper-folio/          ┘
-│   ├── manga-jump/           ┐
-│   ├── glass-dusk/           │  Diary Comic line
-│   └── y2k-bubble/           ┘
+├── skills/
+│   └── wechat-miniprogram-design/         ← the skill itself
+│       ├── SKILL.md                       ← entry point (~530 lines)
+│       ├── Tweaks Panel.md                ← sub-skill for the in-prototype Tweaks panel
+│       │
+│       ├── design-systems/                ← 6 pre-built named visual systems
+│       │   ├── README.md                  ← selection index with comparison axes
+│       │   ├── cosmic-nocturne/           ┐
+│       │   ├── liquid-iridescence/        │  Dream Journal line (~25KB design.md each)
+│       │   ├── paper-folio/               ┘
+│       │   ├── manga-jump/                ┐
+│       │   ├── glass-dusk/                │  Diary Comic line
+│       │   └── y2k-bubble/                ┘
+│       │
+│       ├── starters/                      ← copy-paste JSX building blocks
+│       │   ├── ios-frame.jsx              ← iOS device bezel + WeChat capsule
+│       │   ├── design-canvas.jsx          ← pan/zoom multi-artboard canvas
+│       │   ├── tweaks-panel.jsx           ← live-toggleable controls
+│       │   └── image-slot.js              ← user-fillable image placeholders
+│       │
+│       └── references/                    ← progressive disclosure docs
+│           ├── component-vocab.md         ← WeUI / Vant Weapp / Taro UI translation
+│           ├── performance-budget.md      ← X5 silent-failure CSS, asset weight ceilings
+│           └── handoff-template.md        ← handoff.md skeleton with AI preflight section
 │
-├── starters/                 ← copy-paste JSX building blocks
-│   ├── ios-frame.jsx         ← iOS device bezel + WeChat capsule
-│   ├── design-canvas.jsx     ← pan/zoom multi-artboard canvas
-│   ├── tweaks-panel.jsx      ← live-toggleable controls
-│   └── image-slot.js         ← user-fillable image placeholders
-│
-└── references/               ← progressive disclosure docs (read only when needed)
-    ├── component-vocab.md    ← WeUI / Vant Weapp / Taro UI translation
-    ├── performance-budget.md ← X5 silent-failure CSS, asset weight ceilings
-    └── handoff-template.md   ← handoff.md skeleton with AI preflight section
+├── README.md                              ← you are here
+├── LICENSE                                ← MIT
+└── .gitignore
 ```
 
 ---
