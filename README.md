@@ -141,7 +141,7 @@ The Generic fallback is intentionally lowest-common-denominator: filesystem + br
 
 ## License
 
-(See repository root.)
+MIT — see [LICENSE](LICENSE). Use it, fork it, embed it into your own skill library; attribution welcome but not required.
 
 ---
 
