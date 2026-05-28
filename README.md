@@ -2,8 +2,6 @@
 
 A coding-agent skill for designing **production-grade WeChat mini-program UI** — multi-screen interactive React prototypes inside a real iOS frame with the WeChat top capsule. Packaged as a Claude Code plugin; the core `SKILL.md` can also be read by other coding agents with filesystem access.
 
-> _(Demo screenshots / video coming soon — open an issue or PR if you've shipped a prototype with this skill and want it featured.)_
-
 ## What This Does
 
 Helps non-designers design WeChat mini-programs by showing them **side-by-side device-frame previews** instead of asking them to describe aesthetics in words. The deliverable is a clickable HTML prototype + a `handoff.md` your dev team can implement against — including AI feature wiring with the CloudBase preflight checklist.

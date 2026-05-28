@@ -14,8 +14,8 @@
       },
       "category": "design",
       "source": {
-        "source": "git",
-        "url": "https://github.com/banjinbell/wechat-miniprogram-design.git",
+        "source": "github",
+        "repo": "banjinbell/wechat-miniprogram-design",
         "ref": "main"
       },
       "homepage": "https://github.com/banjinbell/wechat-miniprogram-design",
