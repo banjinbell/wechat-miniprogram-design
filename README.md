@@ -1,173 +1,133 @@
 # WeChat Mini-Program Design
 
-A skill for designing **production-grade WeChat mini-program UI** — multi-screen interactive React prototypes that live inside a real iOS frame with the WeChat top capsule. Helps non-designers discover their aesthetic through side-by-side device-frame previews rather than abstract style words.
+A coding-agent skill for designing **production-grade WeChat mini-program UI** — multi-screen interactive React prototypes inside a real iOS frame with the WeChat top capsule. Packaged as a Claude Code plugin; the core `SKILL.md` can also be read by other coding agents with filesystem access.
 
-> **What you get:** a clickable HTML prototype + a `handoff.md` your dev team can implement against — including AI feature wiring with the CloudBase preflight checklist.
+> _(Demo screenshots / video coming soon — open an issue or PR if you've shipped a prototype with this skill and want it featured.)_
 
----
+## What This Does
 
-## Who this is for
+Helps non-designers design WeChat mini-programs by showing them **side-by-side device-frame previews** instead of asking them to describe aesthetics in words. The deliverable is a clickable HTML prototype + a `handoff.md` your dev team can implement against — including AI feature wiring with the CloudBase preflight checklist.
 
-- **Designers / PMs / founders** designing a WeChat mini-program from scratch
-- **Engineers** prototyping the UI before writing WXML/WXSS/JS
-- **Non-designers** who want to discover what aesthetic they like by reacting to side-by-side phones rather than guessing style words
+### Key Features
 
-The skill assumes you are designing for the **WeChat mini-program medium** (not generic web UI). The capsule, the safe-area, the 44px hit target, the WeChat tab bar, the `rpx` unit — these are the medium's signature edges, and this skill designs *with* them.
-
----
-
-## What's required
-
-### To run the skill (mandatory)
-
-- An **agent shell with filesystem access**. Verified to work with:
-  - Claude Code (terminal, IDE, or claude.ai)
-  - Cursor
-  - Cline
-  - Aider
-  - Codex CLI
-  - Any custom MCP-based coding agent
-- A **modern browser** to view the deliverable (Chrome, Edge, Safari, Firefox).
-
-That's it. No MCP servers, no API keys, no cloud accounts to *run the skill itself*.
-
-### To take the design to production (optional, for the dev team afterwards)
-
-The skill generates a `handoff.md` that names the companion skills/resources the dev team uses to implement the design. These are **not** runtime dependencies of this skill — they're reading material for whoever picks up the handoff:
-
-- [`miniprogram-development`](https://docs.cloudbase.net/) — project scaffold, WeChat Developer Tools workflow, `miniprogram-ci` preview / upload / release
-- [`cloudbase`](https://docs.cloudbase.net/) — environment binding, NoSQL/MySQL, 云函数, 云存储, the AI extension overview
-- [`ai-model-wechat`](https://docs.cloudbase.net/ai/) — exact `wx.cloud.extend.AI` call shape, model groups, mandatory 2-step preflight
-- [`auth-wechat`](https://docs.cloudbase.net/) — native mini-program login (`wx.login` → OPENID/UNIONID)
-- A WeChat mini-program AppID + a CloudBase EnvId
-- (For AI features) Token Credits resource pack or 成长计划 enrollment
-
-If you're only doing design review, none of these matter. The prototype runs in your browser.
-
----
+- **Real iPhone Frame** — Every screen lives inside an iOS bezel with the WeChat top capsule rendered correctly. No naked mockups.
+- **Flows, Not Screens** — Default deliverable is a 4–6 screen flow on a pan/zoom canvas. The user reads transitions, not hero shots.
+- **Visual Style Discovery** — 3 distinct home-screen previews side-by-side; pick the direction you like (or mix elements).
+- **Anti-AI-Slop** — Avoids the "white card + system 苹方 + blue link + pink-purple gradient CTA" trap. 6 curated design systems with committed visual theses.
+- **CJK-First Typography** — Real Chinese content, real product nouns, real dates. Latin display fonts pair *to* the CJK weight, not the other way.
+- **CloudBase-Ready Handoff** — Generated `handoff.md` includes `wx.cloud.extend.AI` call shapes, the 5-step preflight checklist (envId, 成长计划, Token Credits, model group), and default model picks (`deepseek-v3.2` / `hunyuan-image-v2`).
 
 ## Installation
 
-### Claude Code — via the plugin marketplace (recommended)
+### Via Claude Code Plugin Marketplace
 
-This repo IS a Claude Code marketplace. Two commands and you're done:
+Two commands as **two separate Claude Code messages** (don't paste both at once):
 
+```text
+/plugin marketplace add https://github.com/banjinbell/wechat-miniprogram-design
 ```
-/plugin marketplace add banjinbell/wechat-miniprogram-design
+
+After that finishes:
+
+```text
 /plugin install wechat-miniprogram-design@banjinbell
 ```
 
-After install, the skill is reachable as `/wechat-miniprogram-design:*` and auto-triggers on prompts like *"帮我设计一个日记小程序"* or *"design a fitness tracking mini-program"*. To pull updates later: `/plugin marketplace update` (or enable auto-update in `/plugin` settings).
+Then trigger with `/wechat-miniprogram-design:wechat-miniprogram-design` or just say *"帮我设计一个日记小程序"* — it auto-triggers.
 
-### Claude Code — manual (standalone, without the marketplace)
+Use the HTTPS URL. The shorter `banjinbell/wechat-miniprogram-design` form may make Claude Code try SSH, which can fail if GitHub isn't in your `known_hosts`.
 
-If you prefer the classic `.claude/` install:
+### Claude Code Manual Installation
 
 ```bash
 git clone https://github.com/banjinbell/wechat-miniprogram-design.git
 cp -r wechat-miniprogram-design/skills/wechat-miniprogram-design ~/.claude/skills/
 ```
 
-In this mode the skill triggers as `/wechat-miniprogram-design` (no plugin namespace).
+Triggers as `/wechat-miniprogram-design` (no plugin namespace).
 
-### Cursor / Cline / Aider / generic agents
+### Other Coding Agents
 
-Place `skills/wechat-miniprogram-design/` anywhere your agent's skill loader scans. For Cursor and most MCP-based shells, reading `SKILL.md` at session start (via the agent's rules / system-prompt convention) is enough — the body is self-contained.
+Cursor, Cline, Aider, Codex, Gemini CLI, OpenCode — point the agent at this repo and ask it to use the skill:
 
-### Manual / one-off use
-
-You don't have to "install" anything. Just point your agent at the SKILL.md and start the conversation:
-
-> "Read `/path/to/wechat-miniprogram-design/skills/wechat-miniprogram-design/SKILL.md` and follow it. I want to design a mini-program for tracking gym workouts."
-
----
-
-## Quick start
-
-In your agent, after the skill is loaded:
-
-```
-你好，帮我设计一个日记小程序，五个屏幕：首页 / 写日记 / 加载中 / 漫画结果 / 分享卡
+```text
+https://github.com/banjinbell/wechat-miniprogram-design
 ```
 
-The skill responds by:
+The agent should start from `skills/wechat-miniprogram-design/SKILL.md` and load referenced support files on demand. The skill body uses capability-name language (e.g. *"materialize a starter component"*) and defers shell-specific mechanisms to its built-in *Runtime Adapter* table, so it doesn't depend on Claude-Code-only tools.
 
-1. **Phase 1 — Content discovery.** Asks 6 structured questions in one shot (product, user moment, flows, fidelity level, brand assets, tone/references). You answer once.
-2. **Phase 2 — Style discovery.** Generates **3 distinct home-screen previews** in real iOS device frames with the WeChat capsule rendered. You pick the direction you like (or "mix elements").
-3. **Phase 3 — Full prototype.** Expands the picked direction into all the screens you listed, on a pan/zoom design canvas. Wires in 2–4 tasteful tweaks (color, type pairing, density, dark mode) so you can re-skin live. Wires the AI feature through an `aiComplete` hook with real LLM calls in claude.ai or a realistic mock everywhere else.
-4. **Phase 4 — Delivery.** Opens the prototype in your browser and summarizes how to navigate it.
-5. **Phase 5 — Share & Export.** Auto-generates a 2× PNG set + a `handoff.md` with color tokens, type scale, component recipes, rpx conversion, and the AI features section with the CloudBase preflight checklist.
+## Usage
 
----
+### Design a new mini-program
 
-## File structure
+```text
+> "帮我设计一个日记小程序，五个屏幕：首页 / 写日记 / 加载中 / 漫画结果 / 分享卡"
+```
+
+The skill will:
+
+1. Ask 6 structured questions in one shot (product, user moment, flows, fidelity, brand, references)
+2. Generate 3 distinct home-screen previews in iOS frames
+3. Let you pick the direction (or mix elements across previews)
+4. Expand the chosen direction into all the screens you listed, on a single pan/zoom canvas
+5. Wire 2–4 live tweaks (color, type pairing, density, dark mode) so you can re-skin in-place
+6. Open the prototype in your browser + auto-generate `handoff.md` and a 2× PNG set
+
+### Refine an existing prototype
+
+```text
+> "Phase 3 这版 hover state 太重了，能改细一点吗？还有把成长版的 mood face 换成更可爱的"
+```
+
+The skill detects Mode C (enhancement), reads every existing screen first, then applies modifications under explicit rules (no breaking capsule clearance, no breaking 44px tap targets, no overflow).
+
+### Recreate an existing mini-program
+
+```text
+> "我想把这个小程序的设计抄一遍：https://github.com/some-team/their-miniprogram"
+```
+
+The skill switches to Mode B (reskin), imports tokens from the source repo, identifies the component library in use, and recreates the design at your canvas — pixel-faithful via lifted hex values rather than eyeballed screenshots.
+
+## Included Design Systems
+
+Six pre-built, hand-tuned visual systems. The skill consults `design-systems/README.md` first, shortlists 2–3 candidates whose `audience / mood / time-of-day / shareability / build complexity` axes match your brief, then renders them as Phase 2 previews.
+
+### Dream Journal line
+
+- **Cosmic Nocturne** — Late-night, navy & gold, serif-led, contemplative
+- **Liquid Iridescence** — Soft, dreamy, oil-on-water gradients, modern editorial
+- **Paper Folio** — Tactile paper texture, hand-bound book aesthetic, warm neutrals
+
+### Diary Comic line
+
+- **Manga Jump** — 90s 日漫 spot color, screentone, kinetic, drop-shadow signatures
+- **Glass Dusk** — Frosted glass plates, magic-hour gradients, premium consumer
+- **Y2K Bubble** — Candy colors, chrome highlights, playful, share-first
+
+Each system has a lightweight `preview.md` (~5KB, read during shortlisting) and a full `design.md` (~25KB, read only after the user picks the direction). Don't fit any of these? The skill will design a new system *in the same shape* and capture it for next time.
+
+## File Structure
 
 ```
-wechat-miniprogram-design/                 ← repo root (also a single-plugin marketplace)
+wechat-miniprogram-design/                       ← single-plugin marketplace
 ├── .claude-plugin/
-│   ├── marketplace.json                   ← Claude Code marketplace catalog
-│   └── plugin.json                        ← plugin manifest
-│
-├── skills/
-│   └── wechat-miniprogram-design/         ← the skill itself
-│       ├── SKILL.md                       ← entry point (~530 lines)
-│       ├── Tweaks Panel.md                ← sub-skill for the in-prototype Tweaks panel
-│       │
-│       ├── design-systems/                ← 6 pre-built named visual systems
-│       │   ├── README.md                  ← selection index with comparison axes
-│       │   ├── cosmic-nocturne/           ┐
-│       │   ├── liquid-iridescence/        │  Dream Journal line (~25KB design.md each)
-│       │   ├── paper-folio/               ┘
-│       │   ├── manga-jump/                ┐
-│       │   ├── glass-dusk/                │  Diary Comic line
-│       │   └── y2k-bubble/                ┘
-│       │
-│       ├── starters/                      ← copy-paste JSX building blocks
-│       │   ├── ios-frame.jsx              ← iOS device bezel + WeChat capsule
-│       │   ├── design-canvas.jsx          ← pan/zoom multi-artboard canvas
-│       │   ├── tweaks-panel.jsx           ← live-toggleable controls
-│       │   └── image-slot.js              ← user-fillable image placeholders
-│       │
-│       └── references/                    ← progressive disclosure docs
-│           ├── component-vocab.md         ← WeUI / Vant Weapp / Taro UI translation
-│           ├── performance-budget.md      ← X5 silent-failure CSS, asset weight ceilings
-│           └── handoff-template.md        ← handoff.md skeleton with AI preflight section
-│
-├── README.md                              ← you are here
-├── LICENSE                                ← MIT
-└── .gitignore
+│   ├── marketplace.json                         ← Claude Code marketplace catalog
+│   └── plugin.json                              ← plugin manifest (rolling release)
+├── skills/wechat-miniprogram-design/            ← the skill itself
+│   ├── SKILL.md                                 ← entry point
+│   ├── Tweaks Panel.md                          ← sub-skill
+│   ├── design-systems/                          ← 6 design systems (selection index + previews + full specs)
+│   ├── starters/                                ← ios-frame, design-canvas, tweaks-panel, image-slot
+│   └── references/                              ← component-vocab, performance-budget, handoff-template
+├── README.md
+└── LICENSE                                      ← MIT
 ```
-
----
-
-## Key design choices
-
-- **The prototype is NOT the mini-program.** It's an HTML React design in Chrome — use modern CSS freely (`clip-path`, `backdrop-filter`, `:has()`). Production-side portability is documented in `handoff.md`, not pre-degraded into the design.
-- **Show flows, not screens.** A mini-program is judged on transitions and reactivity. The default deliverable is a 4–6 screen flow on a single canvas, not isolated hero shots.
-- **CJK-first typography.** Real Chinese content, real product nouns, real dates. Latin display fonts get paired *to* the CJK weight, not the other way.
-- **Distinctive over "WeChat default".** White rounded-corner cards + system 苹方 + blue links is "AI slop" of this medium. The skill picks committed visual theses from the pre-built design-systems library.
-- **Production AI uses `wx.cloud.extend.AI` directly** — no cloud function proxy. The skill writes the call shapes and preflight checklist into `handoff.md` for the dev team.
-
----
-
-## Portability across agent shells
-
-Different shells expose different tools. This skill uses **capability-name language** in the body ("materialize a starter component", "render to PDF", "open the deliverable") and defers each concrete mechanism to a *Runtime Adapter* table inside `SKILL.md`. The table has columns for:
-
-- Claude.ai shell (artifact viewer) — uses `copy_starter_component`, `window.claude.complete`, `done` signal
-- Claude Code (terminal / IDE) — uses Read + Write, mock with `setTimeout`, write file + tell user the path
-- Generic fallback — covers Cursor, Cline, Aider, vanilla Claude Code, Codex CLI, custom MCP agents
-
-The Generic fallback is intentionally lowest-common-denominator: filesystem + browser + shell. If your shell isn't listed, add a column.
-
----
 
 ## License
 
 MIT — see [LICENSE](LICENSE). Use it, fork it, embed it into your own skill library; attribution welcome but not required.
 
----
+## Contributing
 
-## Contributing / feedback
-
-Issues and PRs welcome. The skill is opinionated by design — see *What "Outstanding" Looks Like* at the bottom of `SKILL.md` for the bar it tries to clear.
+Issues and PRs welcome. The skill is opinionated by design — see *What "Outstanding" Looks Like* at the bottom of `skills/wechat-miniprogram-design/SKILL.md` for the bar it tries to clear.
