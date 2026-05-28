@@ -1,0 +1,9 @@
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# Skill runtime outputs (the skill generates these during use)
+export/
+*.tmp.html
